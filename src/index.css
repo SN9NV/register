@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #36363f;
+    color: white;
+}
+
+input {
+    display: flex;
+    font-size: 2em;
+    padding: 0.5em;
+    border-radius: 16px;
+    border: none;
+}
+
+button:focus, input:focus {
+    outline: none;
+}
+
+.UserContainer {
+    margin: 16px auto;
+}
+
+.User {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 2em;
+    width: 32ex;
+    border-radius: 4px;
+    background-color: #00BC8C;
+    cursor: pointer;
+}
+
+.User.in {
+    background-color: #00BC8C;
+}
+
+.User.out {
+    background-color: #E74C3C;
+}
+
+.User.remove {
+    background-color: #F39C12;
+}
+
+.User.new {
+    background-color: #3498DB;
+}
+
+.User .name {
+    font-size: 3em;
+    margin: auto;
+}
+
+.User span {
+    margin: auto;
+    min-height: 1.5rem;
+}
+
+.flexColumn {
+    display: 'flex';
+    flex-direction: 'column';
+}
