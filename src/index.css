@@ -18,8 +18,8 @@ button:focus, input:focus {
     outline: none;
 }
 
-.UserContainer {
-    margin: 16px auto;
+.UserCard {
+    margin: 2em auto;
 }
 
 .User {
@@ -27,10 +27,11 @@ button:focus, input:focus {
     justify-content: space-between;
     flex-direction: column;
     padding: 2em;
-    width: 32ex;
+    padding-top: 1em;
     border-radius: 4px;
     background-color: #00BC8C;
     cursor: pointer;
+    width: 24ex;
 }
 
 .User.in {
@@ -60,6 +61,8 @@ button:focus, input:focus {
 }
 
 .flexColumn {
-    display: 'flex';
-    flex-direction: 'column';
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
 }

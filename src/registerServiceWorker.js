@@ -50,14 +50,11 @@ export default function register() {
       }
     });
 
-    window.addEventListener('install', event => {
-      event.waitUntil(
-        caches.open('register-pwa')
-          .then(cache => cache.addAll([
-            '/',
-            '/static/js/bundle.js',
-          ])));
-    });
+    // window.addEventListener('fetch', event => {
+    //   event.respondWith(
+    //       caches.match(event.request)
+    //         .then(response => response || fetch(event.request)));
+    // });
   }
 }
 

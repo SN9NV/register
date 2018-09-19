@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 
 import styles from './index.css';
 
-// doesNotExist ? this.saveNewUser() : userNameMetches ?  this.removeUser() : this.toggleUser(name)
-const User = ({ name, isIn, lastChanged, matches, onClick }) => {
-    if (name.length === 0) {
+const User = ({ identifier, isIn, lastChanged, matches, onClick }) => {
+    if (identifier.length === 0) {
         return null;
     }
 
-    console.log(lastChanged, matches);
     const removeUser = lastChanged && matches;
     const newUser = isIn === undefined;
 
@@ -19,15 +17,17 @@ const User = ({ name, isIn, lastChanged, matches, onClick }) => {
                 isIn ? styles.in : styles.out,
     ].join(' ');
 
-    console.log(name, classNames);
+    const [ name, extra ] = identifier.split(' | ');
+    const [ firstName, ...lastName ] = name.split(' ');
 
     return (
-        <div key={name} className={styles.UserContainer}>
-            <div className={classNames} onDoubleClick={() => onClick(name)}>
-                {removeUser ? <span style={{ float: 'left' }}>Remove</span> : null}
-                {newUser ? <span>New</span> : null}
-                <span className={styles.name}>{name.split(' ', 1)[0]}</span>
-                <span >{name.split(' ').slice(1).join(' ')}</span>
+        <div key={identifier} className={styles.UserCard}>
+            <div className={classNames} onDoubleClick={() => onClick(identifier)}>
+                <span>
+                    {removeUser ? 'Remove' : extra || null}
+                </span>
+                <span className={styles.name}>{firstName.replace('_', ' ')}</span>
+                <span >{lastName.join(' ')}</span>
                 <span>{lastChanged}</span>
             </div>
         </div>
@@ -65,7 +65,11 @@ class App extends Component {
             ].sort((a, b) => a.name > b.name);
 
             this.saveUsersToLocal(users);
-            return { users };
+            return {
+                users,
+                searchName: '',
+                searchNameLowerCase: '',
+            };
         });
 
     toggleUser = userName =>
@@ -81,7 +85,11 @@ class App extends Component {
             });
 
             this.saveUsersToLocal(users);
-            return { users };
+            return {
+                users,
+                searchName: '',
+                searchNameLowerCase: '',
+            };
         });
 
     removeUser = userName =>
@@ -90,7 +98,11 @@ class App extends Component {
             users = users.filter(user => user.name !== userName);
 
             this.saveUsersToLocal(users);
-            return { users };
+            return {
+                users,
+                searchName: '',
+                searchNameLowerCase: '',
+            };
         });
 
     now() {
@@ -119,10 +131,9 @@ class App extends Component {
                 .filter(user => user.nameLowerCase.indexOf(this.state.searchNameLowerCase) !== -1)
                 .map(user => {
                     const matches = user.nameLowerCase === this.state.searchNameLowerCase;
-                    console.log(matches);
 
                     return User({
-                        name: user.name,
+                        identifier: user.name,
                         isIn: user.isIn,
                         lastChanged: user.lastChanged,
                         onClick: matches ? this.removeUser : this.toggleUser,
@@ -135,7 +146,7 @@ class App extends Component {
             }
 
             return User({
-                name: this.state.searchName,
+                identifier: this.state.searchName,
                 matches: true,
                 onClick: this.saveNewUser,
             });
@@ -143,12 +154,13 @@ class App extends Component {
 
         return (
             <div className={styles.flexColumn} style={{ padding: '1em' }}>
-                <div className={styles.flexColumn}>
-                    <input value={this.state.searchName} onChange={this.searchChanged} />
+                <div className={styles.flexColumn} style={{ overflowY: 'auto' }}>
+                    <input value={this.state.searchName} onChange={this.searchChanged} autoFocus />
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', userSelect: 'none', pointer: 'hand' }}>
                         {UsersDisplay()}
                     </div>
                 </div>
+                <span style={{ fontSize: 'x-small' }}>Join two firstnames with an underscore. Extra text, postfix with a vertical bar as the separator</span>
             </div>
         );
     }
