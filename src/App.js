@@ -70,7 +70,7 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
-		lastActive: event.target,
+                lastActive: event.target,
             };
         });
 
@@ -91,7 +91,7 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
-		lastActive: event.target,
+                lastActive: event.target,
             };
         });
 
@@ -105,7 +105,7 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
-		lastActive: event.target,
+                lastActive: event.target,
             };
         });
 
@@ -164,7 +164,7 @@ class App extends Component {
                         {UsersDisplay()}
                     </div>
                 </div>
-		{ /* <span style={{ fontSize: 'x-small' }}>Join two firstnames with an underscore. Extra text, postfix with a vertical bar as the separator</span> */ }
+                {/* <span style={{ fontSize: 'x-small' }}>Join two firstnames with an underscore. Extra text, postfix with a vertical bar as the separator</span> */}
             </div>
         );
     }
