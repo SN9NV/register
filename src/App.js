@@ -22,7 +22,7 @@ const User = ({ identifier, isIn, lastChanged, matches, onClick }) => {
 
     return (
         <div key={identifier} className={styles.UserCard}>
-            <div className={classNames} onDoubleClick={() => onClick(identifier)}>
+            <div className={classNames} onClick={event => onClick(identifier, event)}>
                 <span>
                     {removeUser ? 'Remove' : extra || null}
                 </span>
@@ -43,12 +43,13 @@ class App extends Component {
             users: JSON.parse(localStorage.getItem('users')) || [],
             searchName: '',
             searchNameLowerCase: '',
+            lastActive: null
         };
     }
 
     saveUsersToLocal = users => localStorage.setItem('users', JSON.stringify(users));
 
-    saveNewUser = userName =>
+    saveNewUser = (userName, event) =>
         this.setState(previousState => {
             const newName = userName.replace(/\s+/, ' ').trim();
             const now = this.now();
@@ -69,15 +70,16 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
+		lastActive: event.target,
             };
         });
 
-    toggleUser = userName =>
+    toggleUser = (userName, event) =>
         this.setState(({ users }) => {
             users = users.map(user => {
                 if (user.name === userName) {
                     user.isIn = !user.isIn;
-                    user.lastchanged = this.now();
+                    user.lastChanged = this.now();
                     user.changes = [...user.changes, user.lastchanged];
                 }
 
@@ -89,10 +91,11 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
+		lastActive: event.target,
             };
         });
 
-    removeUser = userName =>
+    removeUser = (userName, event) =>
         this.setState(previousState => {
             let { users } = previousState;
             users = users.filter(user => user.name !== userName);
@@ -102,6 +105,7 @@ class App extends Component {
                 users,
                 searchName: '',
                 searchNameLowerCase: '',
+		lastActive: event.target,
             };
         });
 
@@ -154,13 +158,13 @@ class App extends Component {
 
         return (
             <div className={styles.flexColumn} style={{ padding: '1em' }}>
-                <div className={styles.flexColumn} style={{ overflowY: 'auto' }}>
-                    <input value={this.state.searchName} onChange={this.searchChanged} autoFocus />
+                <div className={styles.flexColumn}>
+                    <input value={this.state.searchName} onChange={this.searchChanged} autoFocus aria-label="Main input" />
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', userSelect: 'none', pointer: 'hand' }}>
                         {UsersDisplay()}
                     </div>
                 </div>
-                <span style={{ fontSize: 'x-small' }}>Join two firstnames with an underscore. Extra text, postfix with a vertical bar as the separator</span>
+		{ /* <span style={{ fontSize: 'x-small' }}>Join two firstnames with an underscore. Extra text, postfix with a vertical bar as the separator</span> */ }
             </div>
         );
     }

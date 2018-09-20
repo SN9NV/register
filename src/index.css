@@ -19,7 +19,7 @@ button:focus, input:focus {
 }
 
 .UserCard {
-    margin: 2em auto;
+    margin: 1.5em auto 0 auto;
 }
 
 .User {
@@ -63,6 +63,5 @@ button:focus, input:focus {
 .flexColumn {
     display: flex;
     flex-direction: column;
-    height: 100vh;
     box-sizing: border-box;
 }
